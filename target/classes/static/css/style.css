@@ -1,0 +1,308 @@
+/**
+ * PR Review System – custom Bootstrap overrides and app styles
+ */
+
+/* =============================================================================
+   Navbar – dark theme with brand color accent
+   ============================================================================= */
+.app-navbar {
+    background: linear-gradient(135deg, #1a1d29 0%, #252936 100%) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-bottom: 2px solid #0d6efd;
+}
+
+.app-navbar .navbar-brand {
+    color: #e8eaed !important;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.app-navbar .navbar-brand:hover {
+    color: #0d6efd !important;
+    transition: color 0.2s ease;
+}
+
+.app-navbar .nav-link {
+    color: rgba(232, 234, 237, 0.85) !important;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link:focus {
+    color: #0d6efd !important;
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.app-navbar .dropdown-menu {
+    background-color: #252936;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.app-navbar .dropdown-item {
+    color: rgba(232, 234, 237, 0.9);
+}
+
+.app-navbar .dropdown-item:hover {
+    background-color: rgba(13, 110, 253, 0.15);
+    color: #0d6efd;
+}
+
+.app-navbar .dropdown-item.text-danger:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #f8d7da;
+}
+
+.app-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.app-navbar .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* =============================================================================
+   Page Header Section
+   ============================================================================= */
+.page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.page-header h1 {
+    margin-bottom: 0.25rem;
+    color: #1a1d29;
+    font-weight: 600;
+}
+
+.page-header .subtitle {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+/* =============================================================================
+   Cards – consistent styling with hover effect
+   ============================================================================= */
+.app-card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.app-card .card-title {
+    color: #1a1d29;
+    font-weight: 600;
+}
+
+/* Stat cards hover effect */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.auth-card-wrapper {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+/* =============================================================================
+   PR Status Badge Colors
+   ============================================================================= */
+.badge-primary,
+.badge.bg-primary,
+.status-badge.badge-primary {
+    background-color: #0d6efd !important;
+    color: #fff;
+}
+
+.badge-warning,
+.badge.bg-warning,
+.status-badge.badge-warning {
+    background-color: #ffc107 !important;
+    color: #212529;
+}
+
+.badge-success,
+.badge.bg-success,
+.status-badge.badge-success {
+    background-color: #198754 !important;
+    color: #fff;
+}
+
+.badge-danger,
+.badge.bg-danger,
+.status-badge.badge-danger {
+    background-color: #dc3545 !important;
+    color: #fff;
+}
+
+.badge-secondary,
+.badge.bg-secondary,
+.status-badge.badge-secondary {
+    background-color: #6c757d !important;
+    color: #fff;
+}
+
+/* PR Status specific colors */
+.status-badge[class*="badge-primary"] {
+    background-color: #0d6efd !important;
+    color: #fff;
+}
+
+.status-badge[class*="badge-warning"] {
+    background-color: #ffc107 !important;
+    color: #212529;
+}
+
+.status-badge[class*="badge-success"] {
+    background-color: #198754 !important;
+    color: #fff;
+}
+
+.status-badge[class*="badge-danger"] {
+    background-color: #dc3545 !important;
+    color: #fff;
+}
+
+.status-badge[class*="badge-secondary"] {
+    background-color: #6c757d !important;
+    color: #fff;
+}
+
+/* =============================================================================
+   Review Status Badge Colors
+   ============================================================================= */
+.review-badge.badge-secondary,
+.review-badge[class*="badge-secondary"] {
+    background-color: #6c757d !important;
+    color: #fff;
+}
+
+.review-badge.badge-success,
+.review-badge[class*="badge-success"] {
+    background-color: #198754 !important;
+    color: #fff;
+}
+
+.review-badge.badge-danger,
+.review-badge[class*="badge-danger"] {
+    background-color: #dc3545 !important;
+    color: #fff;
+}
+
+.review-badge.badge-warning,
+.review-badge[class*="badge-warning"] {
+    background-color: #fd7e14 !important;
+    color: #fff;
+}
+
+/* Utility for status badges on tables/cards */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.25em 0.5em;
+    font-weight: 500;
+}
+
+.review-badge {
+    font-size: 0.75rem;
+    padding: 0.25em 0.5em;
+    font-weight: 500;
+}
+
+/* =============================================================================
+   Table Row Hover Highlight
+   ============================================================================= */
+.table-hover tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > td {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd):hover > td {
+    background-color: rgba(13, 110, 253, 0.08) !important;
+}
+
+/* =============================================================================
+   Flash Message Alerts
+   ============================================================================= */
+.alert {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border-left: 4px solid #198754;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-left: 4px solid #ffc107;
+}
+
+.alert-info {
+    background-color: #cff4fc;
+    color: #055160;
+    border-left: 4px solid #0dcaf0;
+}
+
+.alert-dismissible .btn-close {
+    padding: 0.75rem 1rem;
+}
+
+/* =============================================================================
+   Additional Utilities
+   ============================================================================= */
+.text-muted {
+    color: #6c757d !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6"
+      th:replace="~{fragments/layout :: layout('System Audit Log', ~{::main})}">
+<body>
+<main th:fragment="main">
+    <h1 class="h4 mb-4"><i class="bi bi-journal-text me-2"></i>System Audit Log</h1>
+
+    <!-- Filter/search bar (static for now) -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form class="row g-2" method="get" th:action="@{/audit-logs}">
+                <div class="col-auto">
+                    <label class="col-form-label">Filter</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" placeholder="Search (coming soon)" disabled="disabled" aria-label="Search"/>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-secondary" disabled="disabled">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Audit log table -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>PR ID</th>
+                            <th>PR Title</th>
+                            <th>Action</th>
+                            <th>Performed By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="log : ${page.content}">
+                            <td th:text="${#temporals.format(log.timestamp, 'yyyy-MM-dd HH:mm:ss')}">—</td>
+                            <td>
+                                <a th:href="@{/prs/{id}(id=${log.pullRequest.id})}" th:text="${log.pullRequest.id}">—</a>
+                            </td>
+                            <td th:text="${log.pullRequest.title}">—</td>
+                            <td>
+                                <span class="badge rounded-pill"
+                                      th:classappend="${(log.action == 'PR Created') ? 'bg-primary' : ((log.action == 'PR Approved' or log.action == 'PR Merged') ? 'bg-success' : (log.action == 'PR Rejected' ? 'bg-danger' : 'bg-secondary'))}"
+                                      th:text="${log.action}">Action</span>
+                            </td>
+                            <td th:text="${log.performedBy.name}">—</td>
+                        </tr>
+                        <tr th:if="${page.empty}">
+                            <td colspan="5" class="text-muted text-center py-4">No audit logs found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav th:if="${page.totalPages > 1}" aria-label="Audit log pagination">
+        <ul class="pagination justify-content-center flex-wrap">
+            <li class="page-item" th:classappend="${!page.first} ? '' : 'disabled'">
+                <a class="page-link" th:href="@{/audit-logs(page=${page.number - 1}, size=${page.size})}" th:if="${!page.first}">Previous</a>
+                <span class="page-link" th:if="${page.first}">Previous</span>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}" class="page-item" th:classappend="${i == page.number} ? 'active' : ''">
+                <a class="page-link" th:href="@{/audit-logs(page=${i}, size=${page.size})}" th:text="${i + 1}" th:if="${i != page.number}">1</a>
+                <span class="page-link" th:if="${i == page.number}" th:text="${i + 1}">1</span>
+            </li>
+            <li class="page-item" th:classappend="${!page.last} ? '' : 'disabled'">
+                <a class="page-link" th:href="@{/audit-logs(page=${page.number + 1}, size=${page.size})}" th:if="${!page.last}">Next</a>
+                <span class="page-link" th:if="${page.last}">Next</span>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6"
+      th:replace="~{fragments/layout :: layout('Pull Requests', ~{::main})}">
+<body>
+<main th:fragment="main">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-4">
+        <h1 class="h4 mb-0"><i class="bi bi-code-slash me-2"></i>Pull Requests</h1>
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+            <form th:action="@{/prs}" method="get" class="d-flex gap-2 align-items-center">
+                <label for="statusFilter" class="form-label mb-0 small">Status</label>
+                <select id="statusFilter" name="status" class="form-select form-select-sm" style="width: auto;">
+                    <option value="" th:text="'All'" th:selected="${selectedStatus == null || selectedStatus.isEmpty()}">All</option>
+                    <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.displayName}"
+                            th:selected="${selectedStatus != null && selectedStatus == s.name()}">Status</option>
+                </select>
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Filter</button>
+            </form>
+            <a sec:authorize="hasAnyRole('ADMIN','TEAM_LEAD','DEVELOPER')" th:href="@{/prs/new}" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-lg me-1"></i> New PR
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}">Success</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}">Error</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="card shadow-sm app-card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Branch</th>
+                        <th>Status</th>
+                        <th>Author</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="pr : ${pullRequests}">
+                        <td th:text="${pr.id}">1</td>
+                        <td th:text="${pr.title}">Title</td>
+                        <td th:text="${pr.branchName}">branch</td>
+                        <td>
+                            <span class="badge status-badge" th:classappend="${pr.status.cssClass}" th:text="${pr.status.displayName}">Status</span>
+                        </td>
+                        <td th:text="${pr.author.name}">Author</td>
+                        <td th:text="${#temporals.format(pr.createdAt, 'yyyy-MM-dd HH:mm')}">Date</td>
+                        <td>
+                            <a th:href="@{/prs/{id}(id=${pr.id})}" class="btn btn-sm btn-outline-primary">View</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(pullRequests)}">
+                        <td colspan="7" class="text-center text-muted py-4">No pull requests found.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
