@@ -1,51 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout('Edit Pull Request', ~{::main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout('Edit Pull Request', ~{::main})}">
+
 <body>
-<main th:fragment="main">
-    <div class="mb-4">
-        <h1 class="h4 mb-0"><i class="bi bi-pencil me-2"></i>Edit Pull Request #<span th:text="${pullRequest.id}">1</span></h1>
-    </div>
+    <main th:fragment="main">
+        <div class="mb-4">
+            <h1 class="h4 mb-0"><i class="bi bi-pencil me-2"></i>Edit Pull Request #<span
+                    th:text="${pullRequest.id}">1</span></h1>
+        </div>
 
-    <div th:if="${pullRequest != null && pullRequest.status.name() != 'OPEN'}" class="alert alert-warning" role="alert">
-        <i class="bi bi-exclamation-triangle me-2"></i>This pull request is not in OPEN status and should not be edited. Changes may be restricted.
-    </div>
+        <div th:if="${pullRequest != null && pullRequest.status.name() != 'OPEN'}" class="alert alert-warning"
+            role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>This pull request is not in OPEN status and should not be
+            edited. Changes may be restricted.
+        </div>
 
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card shadow-sm app-card">
-                <div class="card-body p-4">
-                    <form th:action="@{/prs/{id}/edit(id=${pullRequest.id})}" th:object="${pullRequestDTO}" method="post">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Brief title">
-                            <p class="text-danger small mt-1" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Errors</p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" th:field="*{description}" rows="4" placeholder="Description of changes"></textarea>
-                            <p class="text-danger small mt-1" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Errors</p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="branchName" class="form-label">Branch Name</label>
-                            <input type="text" class="form-control" id="branchName" th:field="*{branchName}" placeholder="e.g. feature/my-branch">
-                            <p class="text-danger small mt-1" th:if="${#fields.hasErrors('branchName')}" th:errors="*{branchName}">Errors</p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="repoUrl" class="form-label">Repository URL</label>
-                            <input type="url" class="form-control" id="repoUrl" th:field="*{repoUrl}" placeholder="https://github.com/org/repo">
-                            <p class="text-danger small mt-1" th:if="${#fields.hasErrors('repoUrl')}" th:errors="*{repoUrl}">Errors</p>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save</button>
-                            <a th:href="@{/prs/{id}(id=${pullRequest.id})}" class="btn btn-outline-secondary">Cancel</a>
-                        </div>
-                    </form>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm app-card">
+                    <div class="card-body p-4">
+                        <form th:action="@{/prs/{id}/edit(id=${pullRequest.id})}" th:object="${pullRequestDTO}"
+                            method="post">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" th:field="*{title}"
+                                    placeholder="Brief title">
+                                <p class="text-danger small mt-1" th:if="${#fields.hasErrors('title')}"
+                                    th:errors="*{title}">Errors</p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" th:field="*{description}" rows="4"
+                                    placeholder="Description of changes"></textarea>
+                                <p class="text-danger small mt-1" th:if="${#fields.hasErrors('description')}"
+                                    th:errors="*{description}">Errors</p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="branchName" class="form-label">Branch Name</label>
+                                <input type="text" class="form-control" id="branchName" th:field="*{branchName}"
+                                    placeholder="e.g. feature/my-branch">
+                                <p class="text-danger small mt-1" th:if="${#fields.hasErrors('branchName')}"
+                                    th:errors="*{branchName}">Errors</p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="repoUrl" class="form-label">Repository URL</label>
+                                <input type="url" class="form-control" id="repoUrl" th:field="*{repoUrl}"
+                                    placeholder="https://github.com/org/repo">
+                                <p class="text-danger small mt-1" th:if="${#fields.hasErrors('repoUrl')}"
+                                    th:errors="*{repoUrl}">Errors</p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary"><i
+                                        class="bi bi-check-lg me-1"></i>Save</button>
+                                <a th:href="@{/prs/{id}(id=${pullRequest.id})}"
+                                    class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 </body>
+
 </html>

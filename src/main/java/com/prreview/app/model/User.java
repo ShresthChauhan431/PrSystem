@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -52,6 +53,16 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    @Column(nullable = true)
+    private String expertiseTags;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Integer weeklyReviewCount = 0;
+
+    @Column(nullable = true)
+    private LocalDate lastReviewResetDate;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -63,7 +74,31 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
         this.enabled = true;
+        this.weeklyReviewCount = 0;
+        this.lastReviewResetDate = null;
         this.createdAt = LocalDateTime.now();
+    }
+
+    /**
+     * Returns true if this reviewer is overloaded given a weekly review limit.
+     * Resets the weekly counter when a new week starts or when it has never been set.
+     */
+    public boolean isOverloaded(int weeklyLimit) {
+        LocalDate today = LocalDate.now();
+        java.time.temporal.WeekFields weekFields = java.time.temporal.WeekFields.ISO;
+
+        boolean needsReset =
+                lastReviewResetDate == null
+                        || today.getYear() != lastReviewResetDate.getYear()
+                        || today.get(weekFields.weekOfWeekBasedYear()) !=
+                           lastReviewResetDate.get(weekFields.weekOfWeekBasedYear());
+
+        if (needsReset) {
+            weeklyReviewCount = 0;
+            lastReviewResetDate = today;
+        }
+
+        return weeklyReviewCount >= weeklyLimit;
     }
 
     @Override

@@ -9,6 +9,7 @@ com/prreview/app/exception/ResourceNotFoundException.class
 com/prreview/app/model/User$UserBuilder.class
 com/prreview/app/config/DataSeeder.class
 com/prreview/app/dto/package-info.class
+com/prreview/app/service/SmartAssignmentService.class
 com/prreview/app/service/AuditLogService.class
 com/prreview/app/controller/AuthController.class
 com/prreview/app/config/package-info.class

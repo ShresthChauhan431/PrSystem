@@ -1,100 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout('Login', ~{::main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout('Login', ~{::main})}">
 
 <body>
-<main th:fragment="main"
-      class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+    <main th:fragment="main" class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-11 col-sm-8 col-md-6 col-lg-4">
 
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-body p-4 p-md-5">
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <div class="card-body p-4 p-md-5">
 
-                        <!-- Title -->
-                        <h4 class="text-center mb-4 fw-semibold">
-                            <i class="bi bi-box-arrow-in-right text-primary me-2"></i>
-                            Sign In
-                        </h4>
+                            <!-- Title -->
+                            <h4 class="text-center mb-4 fw-semibold">
+                                <i class="bi bi-box-arrow-in-right text-primary me-2"></i>
+                                Sign In
+                            </h4>
 
-                        <!-- Error Alert -->
-                        <div th:if="${param.error}"
-                             class="alert alert-danger d-flex align-items-center"
-                             role="alert">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            <div>
-                                Invalid email or password. Please try again.
+                            <!-- Error Alert -->
+                            <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center"
+                                role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                <div>
+                                    Invalid email or password. Please try again.
+                                </div>
                             </div>
+
+                            <!-- Success Alert -->
+                            <div th:if="${param.registered}" class="alert alert-success d-flex align-items-center"
+                                role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <div>
+                                    Registration successful. Please log in.
+                                </div>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form th:action="@{/login}" method="post">
+
+
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label fw-medium">Email</label>
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email"
+                                        placeholder="your@email.com" required autofocus>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="mb-4">
+                                    <label for="password" class="form-label fw-medium">Password</label>
+                                    <input type="password" class="form-control form-control-lg" id="password"
+                                        name="password" placeholder="••••••••" required>
+                                </div>
+
+                                <!-- Button -->
+                                <button type="submit" class="btn btn-primary w-100 btn-lg">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                                    Login
+                                </button>
+
+                                <!-- Register Link -->
+                                <p class="text-center text-muted small mt-4 mb-0">
+                                    Don't have an account?
+                                    <a th:href="@{/register}" class="text-decoration-none fw-semibold">
+                                        Register here
+                                    </a>
+                                </p>
+
+                            </form>
+
                         </div>
-
-                        <!-- Success Alert -->
-                        <div th:if="${param.registered}"
-                             class="alert alert-success d-flex align-items-center"
-                             role="alert">
-                            <i class="bi bi-check-circle-fill me-2"></i>
-                            <div>
-                                Registration successful. Please log in.
-                            </div>
-                        </div>
-
-                        <!-- Login Form -->
-                        <form th:action="@{/login}" method="post">
-
-                            <!-- CSRF -->
-                            <input type="hidden"
-                                   th:name="${_csrf.parameterName}"
-                                   th:value="${_csrf.token}" />
-
-                            <!-- Email -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label fw-medium">Email</label>
-                                <input type="email"
-                                       class="form-control form-control-lg"
-                                       id="email"
-                                       name="email"
-                                       placeholder="your@email.com"
-                                       required
-                                       autofocus>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="mb-4">
-                                <label for="password" class="form-label fw-medium">Password</label>
-                                <input type="password"
-                                       class="form-control form-control-lg"
-                                       id="password"
-                                       name="password"
-                                       placeholder="••••••••"
-                                       required>
-                            </div>
-
-                            <!-- Button -->
-                            <button type="submit"
-                                    class="btn btn-primary w-100 btn-lg">
-                                <i class="bi bi-box-arrow-in-right me-1"></i>
-                                Login
-                            </button>
-
-                            <!-- Register Link -->
-                            <p class="text-center text-muted small mt-4 mb-0">
-                                Don't have an account?
-                                <a th:href="@{/register}"
-                                   class="text-decoration-none fw-semibold">
-                                    Register here
-                                </a>
-                            </p>
-
-                        </form>
-
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
-</main>
+    </main>
 </body>
+
 </html>

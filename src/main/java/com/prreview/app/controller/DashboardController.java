@@ -7,6 +7,7 @@ import com.prreview.app.model.User;
 import com.prreview.app.repository.UserRepository;
 import com.prreview.app.service.PullRequestService;
 import com.prreview.app.service.ReviewService;
+import com.prreview.app.service.SmartAssignmentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +24,16 @@ public class DashboardController {
     private final PullRequestService pullRequestService;
     private final ReviewService reviewService;
     private final UserRepository userRepository;
+    private final SmartAssignmentService smartAssignmentService;
 
     public DashboardController(PullRequestService pullRequestService,
                                ReviewService reviewService,
-                               UserRepository userRepository) {
+                               UserRepository userRepository,
+                               SmartAssignmentService smartAssignmentService) {
         this.pullRequestService = pullRequestService;
         this.reviewService = reviewService;
         this.userRepository = userRepository;
+        this.smartAssignmentService = smartAssignmentService;
     }
 
     @GetMapping("/dashboard")
@@ -50,6 +54,9 @@ public class DashboardController {
             model.addAttribute("totalUsers", userRepository.count());
             model.addAttribute("pendingApprovals", pullRequestService.findPRsByStatus(PRStatus.IN_REVIEW));
             model.addAttribute("deploymentReadyPRs", pullRequestService.findPRsByStatus(PRStatus.APPROVED));
+            List<User> reviewers = userRepository.findByRole(Role.REVIEWER);
+            model.addAttribute("reviewerWorkload", reviewers);
+            model.addAttribute("workloadVariance", smartAssignmentService.calculateWorkloadVariance());
         }
         if (role == Role.ADMIN) {
             model.addAttribute("recentPRs", pullRequestService.findRecentPRs(10));

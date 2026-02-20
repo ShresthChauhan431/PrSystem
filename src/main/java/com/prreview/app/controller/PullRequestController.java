@@ -7,9 +7,11 @@ import com.prreview.app.model.PullRequest;
 import com.prreview.app.model.User;
 import com.prreview.app.service.AuditLogService;
 import com.prreview.app.service.PullRequestService;
+import com.prreview.app.service.SmartAssignmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,7 @@ public class PullRequestController {
 
     private final PullRequestService pullRequestService;
     private final AuditLogService auditLogService;
+    private final SmartAssignmentService smartAssignmentService;
 
     @GetMapping
     public String list(@AuthenticationPrincipal User currentUser,
@@ -75,6 +78,8 @@ public class PullRequestController {
                     model.addAttribute("auditLogs", auditLogService.findByPullRequest(pr));
                     model.addAttribute("currentUser", currentUser);
                     model.addAttribute("reviewStatuses", com.prreview.app.enums.ReviewStatus.values());
+                    // Smart reviewer suggestions (panel is role-gated in the view)
+                    model.addAttribute("suggestedReviewers", smartAssignmentService.suggestReviewers(pr, 5));
                     ReviewDTO reviewDTO = new ReviewDTO();
                     reviewDTO.setPrId(pr.getId());
                     model.addAttribute("reviewDTO", reviewDTO);
@@ -188,6 +193,24 @@ public class PullRequestController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/prs/" + id;
         }
+    }
+
+    @PostMapping("/{id}/auto-assign")
+    @PreAuthorize("hasAnyRole('ADMIN','TEAM_LEAD')")
+    public String autoAssignSmart(@PathVariable Long id,
+                                  @AuthenticationPrincipal User currentUser,
+                                  RedirectAttributes redirectAttributes) {
+        return pullRequestService.findById(id)
+                .map(pr -> {
+                    smartAssignmentService.autoAssignBalancedReviewers(pr);
+                    redirectAttributes.addFlashAttribute("success",
+                            "Reviewers assigned using Smart Workload Balancer");
+                    return "redirect:/prs/" + pr.getId();
+                })
+                .orElseGet(() -> {
+                    redirectAttributes.addFlashAttribute("error", "Pull request not found.");
+                    return "redirect:/prs";
+                });
     }
 
     private static PullRequestDTO toDTO(PullRequest pr) {

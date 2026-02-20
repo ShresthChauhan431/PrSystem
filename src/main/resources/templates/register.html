@@ -1,151 +1,121 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout('Register', ~{::main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout('Register', ~{::main})}">
 
 <body>
-<main th:fragment="main"
-      class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+    <main th:fragment="main" class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-11 col-sm-10 col-md-8 col-lg-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-11 col-sm-10 col-md-8 col-lg-5">
 
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-body p-4 p-md-5">
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <div class="card-body p-4 p-md-5">
 
-                        <!-- Title -->
-                        <h4 class="text-center mb-4 fw-semibold">
-                            <i class="bi bi-person-plus text-primary me-2"></i>
-                            Create Account
-                        </h4>
+                            <!-- Title -->
+                            <h4 class="text-center mb-4 fw-semibold">
+                                <i class="bi bi-person-plus text-primary me-2"></i>
+                                Create Account
+                            </h4>
 
-                        <!-- Form -->
-                        <form th:action="@{/register}"
-                              th:object="${userRegistrationDTO}"
-                              method="post">
+                            <!-- Form -->
+                            <form th:action="@{/register}" th:object="${userRegistrationDTO}" method="post">
 
-                            <!-- CSRF -->
-                            <input type="hidden"
-                                   th:name="${_csrf.parameterName}"
-                                   th:value="${_csrf.token}" />
+                                <!-- CSRF -->
 
-                            <!-- Full Name -->
-                            <div class="mb-3">
-                                <label for="name" class="form-label fw-medium">Full Name</label>
-                                <input type="text"
-                                       class="form-control form-control-lg"
-                                       id="name"
-                                       th:field="*{name}"
-                                       placeholder="Your name">
 
-                                <p class="text-danger small mt-1"
-                                   th:if="${#fields.hasErrors('name')}"
-                                   th:errors="*{name}">
-                                </p>
-                            </div>
+                                <!-- Full Name -->
+                                <div class="mb-3">
+                                    <label for="name" class="form-label fw-medium">Full Name</label>
+                                    <input type="text" class="form-control form-control-lg" id="name" th:field="*{name}"
+                                        placeholder="Your name">
 
-                            <!-- Email -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label fw-medium">Email</label>
-                                <input type="email"
-                                       class="form-control form-control-lg"
-                                       id="email"
-                                       th:field="*{email}"
-                                       placeholder="your@email.com">
+                                    <p class="text-danger small mt-1" th:if="${#fields.hasErrors('name')}"
+                                        th:errors="*{name}">
+                                    </p>
+                                </div>
 
-                                <p class="text-danger small mt-1"
-                                   th:if="${#fields.hasErrors('email')}"
-                                   th:errors="*{email}">
-                                </p>
-                            </div>
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label fw-medium">Email</label>
+                                    <input type="email" class="form-control form-control-lg" id="email"
+                                        th:field="*{email}" placeholder="your@email.com">
 
-                            <!-- Password -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label fw-medium">Password</label>
-                                <input type="password"
-                                       class="form-control form-control-lg"
-                                       id="password"
-                                       th:field="*{password}"
-                                       placeholder="At least 8 characters">
+                                    <p class="text-danger small mt-1" th:if="${#fields.hasErrors('email')}"
+                                        th:errors="*{email}">
+                                    </p>
+                                </div>
 
-                                <p class="text-danger small mt-1"
-                                   th:if="${#fields.hasErrors('password')}"
-                                   th:errors="*{password}">
-                                </p>
-                            </div>
+                                <!-- Password -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label fw-medium">Password</label>
+                                    <input type="password" class="form-control form-control-lg" id="password"
+                                        th:field="*{password}" placeholder="At least 8 characters">
 
-                            <!-- Confirm Password -->
-                            <div class="mb-3">
-                                <label for="confirmPassword" class="form-label fw-medium">
-                                    Confirm Password
-                                </label>
+                                    <p class="text-danger small mt-1" th:if="${#fields.hasErrors('password')}"
+                                        th:errors="*{password}">
+                                    </p>
+                                </div>
 
-                                <input type="password"
-                                       class="form-control form-control-lg"
-                                       id="confirmPassword"
-                                       th:field="*{confirmPassword}"
-                                       placeholder="Repeat password">
+                                <!-- Confirm Password -->
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label fw-medium">
+                                        Confirm Password
+                                    </label>
 
-                                <p class="text-danger small mt-1"
-                                   th:if="${#fields.hasErrors('confirmPassword')}"
-                                   th:errors="*{confirmPassword}">
-                                </p>
+                                    <input type="password" class="form-control form-control-lg" id="confirmPassword"
+                                        th:field="*{confirmPassword}" placeholder="Repeat password">
 
-                                <p class="text-danger small mt-1"
-                                   th:if="${#fields.hasErrors('passwordMatch')}"
-                                   th:errors="*{passwordMatch}">
-                                </p>
-                            </div>
+                                    <p class="text-danger small mt-1" th:if="${#fields.hasErrors('confirmPassword')}"
+                                        th:errors="*{confirmPassword}">
+                                    </p>
 
-                            <!-- Role -->
-                            <div class="mb-4">
-                                <label for="role" class="form-label fw-medium">Role</label>
+                                    <p class="text-danger small mt-1" th:if="${#fields.hasErrors('passwordMatch')}"
+                                        th:errors="*{passwordMatch}">
+                                    </p>
+                                </div>
 
-                                <select class="form-select form-select-lg"
-                                        id="role"
-                                        th:field="*{role}"
-                                        required>
+                                <!-- Role -->
+                                <div class="mb-4">
+                                    <label for="role" class="form-label fw-medium">Role</label>
 
-                                    <option value="" disabled selected>Select role</option>
+                                    <select class="form-select form-select-lg" id="role" th:field="*{role}" required>
 
-                                    <option th:each="role : ${roles}"
-                                            th:value="${role}"
+                                        <option value="" disabled selected>Select role</option>
+
+                                        <option th:each="role : ${roles}" th:value="${role}"
                                             th:text="${role.displayName}">
-                                    </option>
+                                        </option>
 
-                                </select>
+                                    </select>
 
-                                <p class="text-danger small mt-1"
-                                   th:if="${#fields.hasErrors('role')}"
-                                   th:errors="*{role}">
+                                    <p class="text-danger small mt-1" th:if="${#fields.hasErrors('role')}"
+                                        th:errors="*{role}">
+                                    </p>
+                                </div>
+
+                                <!-- Button -->
+                                <button type="submit" class="btn btn-primary w-100 btn-lg mb-3">
+                                    <i class="bi bi-person-plus me-1"></i>
+                                    Register
+                                </button>
+
+                                <!-- Login Link -->
+                                <p class="text-center text-muted small mb-0">
+                                    Already have an account?
+                                    <a th:href="@{/login}" class="fw-semibold text-decoration-none">
+                                        Log in
+                                    </a>
                                 </p>
-                            </div>
 
-                            <!-- Button -->
-                            <button type="submit"
-                                    class="btn btn-primary w-100 btn-lg mb-3">
-                                <i class="bi bi-person-plus me-1"></i>
-                                Register
-                            </button>
+                            </form>
 
-                            <!-- Login Link -->
-                            <p class="text-center text-muted small mb-0">
-                                Already have an account?
-                                <a th:href="@{/login}"
-                                   class="fw-semibold text-decoration-none">
-                                    Log in
-                                </a>
-                            </p>
-
-                        </form>
-
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
-
-</main>
+    </main>
 </body>
+
 </html>
